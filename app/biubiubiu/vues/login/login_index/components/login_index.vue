@@ -7,12 +7,12 @@
             <h2 id='tit'><a href="javascript:void(0);" class='active' name='1'>账号登录</a></h2>
             <div class="formBox">
                 <div class="zhongke form">
-                    <div class="errMess" v-show="errMsgShow">errMsg</div>
+                    <div class="errMess" :style="{visibility:errMsgShow}">{{errMsg}}</div>
                     <ul>
-                        <li><input type="text" v-model="acc" placeholder="手机号/账号" id='user' class='user'><span><img
-                                src="/gongyu/static/image/login/login_03.png" alt=""></span></li>
-                        <li style='margin-top:20px;'><input type="password" v-model="pass" placeholder="密码" id='pwd'  class='pwd'><span><img
-                                src="/gongyu/static/image/login/login_06.png" alt=""></span>
+                        <li><input @focus="errMsgShow='hidden'" type="text" v-model="acc" placeholder="手机号/账号" id='user' class='user'><span><img
+                                src="/biubiubiu/static/image/login/login_03.png" alt=""></span></li>
+                        <li style='margin-top:20px;'><input type="password"  @focus="errMsgShow='hidden'" v-model="pass" placeholder="密码" id='pwd'  class='pwd'><span><img
+                                src="/biubiubiu/static/image/login/login_06.png" alt=""></span>
                         </li>
                     </ul>                  
                     <div class='remeberPwd clear'><a href="javascript:;" id="backPwd">忘记密码？</a>                      
@@ -32,20 +32,41 @@
 import md5 from "js-md5";
 import { mapActions } from "vuex";
 import { navigator } from "../../../_common/utils";
+import { SchemaModel, StringType, DateType, NumberType } from "schema-typed";
+console.log(SchemaModel);
+var model = null;
 export default {
   data() {
     return {
-      errMsgShow: true,
+      errMsgShow: "hidden",
       errMsg: "用户名或密码错误",
       acc: "",
       pass: ""
     };
   },
+  created() {
+    model = SchemaModel({
+      acc: StringType().isRequired("用户名不能为空"),
+      pass: StringType().isRequired("密码不能为空")
+    });
+  },
   methods: {
     ...mapActions("user", ["USER_LOGIN"]),
     async login() {
-      console.log(this.acc);
-      console.log(this.pass);
+      const checkResult = model.check({
+        acc: this.acc,
+        pass: this.pass
+      });
+
+      Object.keys(checkResult).forEach(item => {
+        if (checkResult[item].hasError) {
+          this.errMsg = checkResult[item].errorMessage;
+          this.errMsgShow = "visible";
+        }
+      });
+      if (this.errMsgShow == "visible") {
+        return;
+      }
       try {
         var result = await this.$api.user.userLogin({
           loginName: this.acc,
@@ -54,9 +75,10 @@ export default {
         console.log(this);
         if (result.responseObject.loginType == 0) {
           this.USER_LOGIN(result.responseObject.publicKey);
-          navigator("/main/main_index");
+          // navigator("/main/main_index");
         } else {
-          this.errMsgShow = true;
+          this.errMsgShow = "visible";
+          this.errMsg = "用户名或密码错误";
         }
       } catch (error) {
         console.log(error);
@@ -78,7 +100,7 @@ body {
   position: fixed;
   width: 100%;
   height: 280px;
-  background: url(/gongyu/static/image/login/loginFoot_02.png) no-repeat;
+  background: url(/biubiubiu/static/image/login/loginFoot_02.png) no-repeat;
   background-size: 100%;
   left: 0px;
   bottom: 0px;
@@ -105,7 +127,7 @@ body {
     position: absolute;
     width: 485px;
     height: 382px;
-    background: url(/gongyu/static/image/login/login_01.png) no-repeat;
+    background: url(/biubiubiu/static/image/login/login_01.png) no-repeat;
     top: 82px;
     left: 80px;
   }
@@ -148,8 +170,10 @@ body {
       margin: 0 auto;
       .errMess {
         line-height: 26px;
+        height: 26px;
         font-size: 12px;
         color: red;
+        visibility: hidden;
         text-align: center;
       }
       ul > li {
