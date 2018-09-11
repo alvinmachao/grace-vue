@@ -1,0 +1,66 @@
+.border-radius(@radius:5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -o-border-radius: @radius;
+  -ms-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.boxShadow(@x:0,@y:0,@blur:1px,@color:#000) {
+  -webkit-box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  -o-box-shadow: @arguments;
+  -ms-box-shadow: @arguments;
+  box-shadow: @arguments;
+}
+
+.box-sizing() {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.opacity(@opacity) {
+  @opa: (@opacity*100);
+  filter: alpha(opacity=@opa);
+  opacity: @opacity;
+}
+
+.transition(@pro:background-color,@dur:3s,@fn:ease-in,@delay:0s) {
+  -webkit-transition-property: @pro;
+  -moz-transition-property: @pro;
+  -o-transition-property: @pro;
+  transition-property: @pro;
+
+  -webkit-transition-duration: @dur;
+  -moz-transition-duration: @dur;
+  -o-transition-duration: @dur;
+  transition-duration: @dur;
+
+  -webkit-transition-timing-function: @fn;
+  -moz-transition-timing-function: @fn;
+  -o-transition-timing-function: @fn;
+  transition-timing-function: @fn;
+
+  -webkit-transition-delay: @delay;
+  -moz-transition-delay: @delay;
+  -o-transition-delay: @delay;
+  transition-delay: @delay;
+}
+
+.transform (@rotate: 90deg, @scale: 1, @skew: 1deg, @translate: 0px) {
+  -webkit-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  -moz-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  -o-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  -ms-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+}
+
+@blueActive: #4466c2;
+@blueHoverC: #4d7bf3;
+@bacTiColor: #f4f4f4;
+@resultLiHoverColor: #faeaea;
+@activeColor: #ff8b1a;
+

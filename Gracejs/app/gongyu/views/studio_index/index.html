@@ -1,0 +1,23 @@
+{% extends "../_common/layout.html" %}
+
+{% block "block_custom_css" %}
+<link href="{{constant.cdn}}/gongyu/static/image/favicon.ico" type="image/x-icon" rel="icon">
+<script src="/gongyu/static/js/common/flexible.js"></script>
+
+{% endblock %}
+
+{% block "block_custom_js" %}
+
+    <script src="/gongyu/static/js/studio_index/build.js?c1bc8bfc3d"></script>
+
+    <script src="/gongyu/static/js/common/build.js?c710a37b3c"></script>
+
+
+{% endblock %}
+
+{% block "content" %}
+
+    <!-- 页面入口 -->
+    <div id="app"></div>
+
+{% endblock %}
