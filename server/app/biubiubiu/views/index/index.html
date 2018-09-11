@@ -1,0 +1,23 @@
+{% extends "../_common/layout.html" %}
+
+{% block "block_custom_css" %}
+<link href="{{constant.cdn}}/biubiubiu/static/image/favicon.ico" type="image/x-icon" rel="icon">
+<script src="/biubiubiu/static/js/common/flexible.js"></script>
+
+{% endblock %}
+
+{% block "block_custom_js" %}
+
+<script src="/biubiubiu/static/js/index/build.js?7b45d85dc5"></script>
+
+<script src="/biubiubiu/static/js/common/build.js?2f5f738ca7"></script>
+
+
+{% endblock %}
+
+{% block "content" %}
+
+<!-- 页面入口 -->
+<div id="app"></div>
+
+{% endblock %}
