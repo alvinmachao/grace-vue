@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <!-- <link rel="stylesheet" type="text/css" href="./b5ad44dfd8f7805c8ec1c7d4f79c6f52.css"> -->
+    <script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+<div id="page1" style="width: 80%; height:80%;">
+
+</div>
+<div style="height:40px;">
+    <button id="next"> 下一张</button>
+    <button id="getMark">获取数据</button>
+</div>
+<!-- <script src="./b5ad44dfd8f7805c8ec1c7d4f79c6f52.js"> -->
+
+<script type="text/javascript">
+    window.onload = function () {
+        window.getData = {
+            "mode": 2,      //1：标注；2：质检(可修改)； 3：质检（不可修改）4：验收；5：预览 0：预留
+            "formData": {     //表单业务数据定义，可进行扩展定义 ［标注平台的配置项］
+                "propertyLst": [
+                    {
+
+                        "propertyId": 0,
+                        "propertyKey": "label",
+                        "propertyType": 0,    //代表标签选项
+                        "propertyName": "标签",
+                        "groupId": 0,
+                        "propertyValuelst": [
+                            {
+                                "propertyValue": "car",
+                                "propertyLabel": "汽车",
+                                "boxColor": [202, 255, 112],       //框颜色值
+                                "boxColorOpacity": "1",       //框不透明度值：0-1
+                                "fillColor": [202, 255, 112],     //填充色值
+                                "fillColorOpacity": "0.2",       //填充色不透明度值：0-1
+                            },
+                            {
+                                "propertyValue": "truck",
+                                "propertyLabel": "卡车",
+                                "boxColor": [255, 255, 0],       //框颜色值
+                                "boxColorOpacity": "1",       //框不透明度值：0-1
+                                "fillColor": [255, 255, 0],     //填充色值
+                                "fillColorOpacity": "0.2",       //填充色不透明度值：0-1
+                            },
+                            {
+                                "propertyValue": "bus",
+                                "propertyLabel": "公交车",
+                                "boxColor": [255, 255, 193],       //框颜色值
+                                "boxColorOpacity": "1",       //框不透明度值：0-1
+                                "fillColor": [255, 255, 193],     //填充色值
+                                "fillColorOpacity": "0.2",       //填充色不透明度值：0-1
+                            },
+                            {
+                                "propertyValue": "SUV",
+                                "propertyLabel": "越野车",
+                                "boxColor": [255, 255, 64],       //框颜色值
+                                "boxColorOpacity": "1",       //框不透明度值：0-1
+                                "fillColor": [255, 255, 64],     //填充色值
+                                "fillColorOpacity": "0.2",       //填充色不透明度值：0-1
+                            },
+                            {
+                                "propertyValue": "RV",
+                                "propertyLabel": "房车",
+                                "boxColor": [160, 32, 240],       //框颜色值
+                                "boxColorOpacity": "1",       //框不透明度值：0-1
+                                "fillColor": [160, 32, 240],     //填充色值
+                                "fillColorOpacity": "0.2",       //填充色不透明度值：0-1
+                            }
+                        ]
+
+                    },
+                    {
+                        "propertyId": "1",           //表单对象的ID，不可定义为0
+                        "propertyKey": "age",
+                        "propertyType": "1",         //属性类型 1单选、2多选、3文本框、4文本域、5列表、6树形表单
+                        "propertyName": "年龄",
+                        "groupId": "1",           //表单的分组，默认是1，如有有多个表单，id顺序增加
+                        "propertyValueLst": [
+                            {
+                                "propertyValue": "6",   //样例：6代表儿童
+                                "propertyLabel": "儿童",
+                                "checked": true
+                            },
+                            {
+                                "propertyValue": "18",   //样例：18代表成人
+                                "propertyLabel": "成人",
+                                "checked": false
+                            },
+                            {
+                                "propertyValue": "60",   //样例：60代表老年人
+                                "propertyLabel": "老年人",
+                                "checked": false
+                            }
+                        ],
+                        "children": []       //关联下级菜单
+                    },
+                    {
+                        "propertyId": "2",
+                        "propertyKey": "hairColor",
+                        "propertyType": "2",
+                        "propertyName": "发色",
+                        "groupId": "1", //表单的分组，默认是1，如有有多个表单，id顺序增加
+                        "propertyValueLst": [
+                            {
+                                propertyValue: "red",   //样例：红发
+                                propertyLabel: "红色"
+                            },
+                            {
+                                propertyValue: "black",   //样例：黑发
+                                propertyLabel: "黑色"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "propertyId": "3",
+                        "propertyKey": "face",
+                        "propertyType": "3",
+                        "propertyName": "朝向",
+                        "groupId": 1,
+                        "propertyLength": "20", //显示为20个字符的宽度
+                        "propertyIsMust": 0 //是否一定要有输入，0不需要1需要
+                    }
+
+                ],
+                "foundationConfig": [
+                    {           //模板基础功能配置项目，根据模板的不同，数据项不同［模板级配置参数，由标注平台配置）
+                        "configName": "PixLimit",
+                        "configValue": "30*30"   //矩形框长宽必须大于7*7个像素
+                    },
+                    {
+                        "configName": "CrossReferenceLine",
+                        "configValue": true      //是否显示十字参考线，true,false
+                    },
+                    {
+                        "configName": "ScalePercent",
+                        "configValue": 5       //每次按照5%的比例缩放
+                    },
+                    {
+                        "configName": "DetectArea",
+                        "configValue": "40*40"     //鼠标可测量区域配置，如果不配置则不显示
+                    }
+                ],
+            },
+
+            "preMarkResult": {      //预标注数据或者前工序的标注数据［标注平台传递前一个任务的标注结果］
+                "type": "FeatureCollection",      //标注数据特征合集
+                "features": [                   //标注数据集 特征
+                    {
+                        "objectId": 1,    //标注图形的唯一标识，属于模板产生的自增变量
+                        "type": "Feature",   //标注数据绘制类型，Feature：图形，后续在扩展
+                        "geometry":         //标注图形类型和坐标值
+                            {
+                                "type": "ExtentPolygon", //标注图形的类型  ExtentPolygon：矩形 Point：点 LineString：线 Polygon：多边形
+                                "coordinates":          //坐标值
+                                    [
+                                        [0.0, 0.0], [100.0, 100.0]
+                                    ]
+                            },
+                        "properties":   //表单属性数据集合
+                            {
+                                "propertValue": [        //属性值集合数组
+                                    {
+                                        "propertyId": "1",
+                                        "propertyName": "age",
+                                        "propertyAliasName": "年龄",
+                                        "proeprtyValue": "18"
+                                    },
+                                    {
+                                        "propertyId": "2",
+                                        "propertyName": "linkID",
+                                        "propertyAliasName": "关联",
+                                        "proeprtyValue": "1"
+                                    },
+                                    {
+                                        "propertyId": "3",
+                                        "propertyName": "hairColor",
+                                        "propertyAliasName": "发色",
+                                        "proeprtyValue": "black"
+                                    }
+                                ]
+                            },
+                        "objectTitle": "1-18-male-black"     //显示值
+                    },
+                    {
+                        "objectId": 2,
+                        "type": "Feature",
+                        "geometry":
+                            {},
+                        "properties":   //表单属性数据集合
+                            {
+                                "propertValue": []
+                            },
+                        "objectTitle": "2-60-female-black"     //显示值
+                    }
+                ]
+            },
+            "markResult": {} //质检场景和验收下需要由标注平台将同一模版标注中存下来的数据交给模版初始化，具体见下述使用过程描述
+        };
+
+        var a = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "ExtentPolygon",
+                        "coordinates": [
+                            [
+                                332.16041553398065,
+                                61.76003495145632
+                            ],
+                            [
+                                418.03761553398067,
+                                61.76003495145632
+                            ],
+                            [
+                                418.03761553398067,
+                                137.0496349514563
+                            ],
+                            [
+                                332.16041553398065,
+                                137.0496349514563
+                            ],
+                            [
+                                332.16041553398065,
+                                61.76003495145632
+                            ]
+                        ]
+                    },
+                    "properties": {
+                        "objectId": 1,
+                        "content": {
+                            "age": "6",
+                            "hairColor": [
+                                "red"
+                            ],
+                            "face": ""
+                        },
+                        "quality": {
+                            "qualityStatus": "failed",
+                            "errorType": {
+                                "unfit": [],
+                                "targetError": [],
+                                "attributeError": [
+                                    "age",
+                                    "hairColor"
+                                ]
+                            }
+                        },
+                        "label": {
+                            "propertyName": "汽车",
+                            "propertyKey": "car"
+                        }
+                    },
+                    "title": "1-汽车-年龄 6"
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "ExtentPolygon",
+                        "coordinates": [
+                            [
+                                339.21881553398066,
+                                165.28323495145634
+                            ],
+                            [
+                                410.97921553398066,
+                                165.28323495145634
+                            ],
+                            [
+                                410.97921553398066,
+                                235.86723495145634
+                            ],
+                            [
+                                339.21881553398066,
+                                235.86723495145634
+                            ],
+                            [
+                                339.21881553398066,
+                                165.28323495145634
+                            ]
+                        ]
+                    },
+                    "properties": {
+                        "objectId": 2,
+                        "content": {
+                            "age": "6",
+                            "hairColor": [
+                                "red"
+                            ],
+                            "face": ""
+                        },
+                        "quality": {
+                            "qualityStatus": "failed",
+                            "errorType": {
+                                "unfit": [
+                                    "top"
+                                ],
+                                "targetError": [
+                                    "labelingFor",
+                                    "annotationObject"
+                                ],
+                                "attributeError": [
+                                    "age",
+                                    "hairColor"
+                                ]
+                            }
+                        },
+                        "label": {
+                            "propertyName": "卡车",
+                            "propertyKey": "truck"
+                        }
+                    },
+                    "title": "2-卡车-年龄 6"
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "ExtentPolygon",
+                        "coordinates": [
+                            [
+                                488.6216155339806,
+                                62.93643495145632
+                            ],
+                            [
+                                556.8528155339807,
+                                62.93643495145632
+                            ],
+                            [
+                                556.8528155339807,
+                                129.9912349514563
+                            ],
+                            [
+                                488.6216155339806,
+                                129.9912349514563
+                            ],
+                            [
+                                488.6216155339806,
+                                62.93643495145632
+                            ]
+                        ]
+                    },
+                    "properties": {
+                        "objectId": 3,
+                        "content": {
+                            "age": "",
+                            "hairColor": [
+                                "red",
+                                "black"
+                            ],
+                            "face": "111"
+                        },
+                        "quality": {},
+                        "label": {
+                            "propertyName": "房车",
+                            "propertyKey": "RV"
+                        }
+                    },
+                    "title": "3-房车-年龄 "
+                }
+            ]
+        }
+        $("#page1").load('/test.html', function () {
+            $("#next").click();
+        });
+        $('#next').click(function () {
+            window.Template.setTemplateData(a, "./timg.jpg");
+
+
+        })
+        $('#getMark').click(function () {
+            var result = window.Template.getMarkResult();
+            console.log(result)
+
+
+        })
+    };
+</script>
+</body>
+</html>

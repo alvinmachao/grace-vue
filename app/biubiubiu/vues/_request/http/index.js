@@ -38,7 +38,6 @@ instance.interceptors.request.use(config => {
 instance.interceptors.response.use(
   res => {
     if (res.data.status === 0) {
-
       return res.data
     } else if (res.data.status === 1) {
       return res.data
@@ -51,6 +50,8 @@ instance.interceptors.response.use(
           toLogin()
         }
       });
+    } else {
+      return res
     }
   },
   error => {

@@ -6,6 +6,9 @@ export default {
     },
     userlogout() {
         return axios.get(`/api/logout`)
-    }
+    },
+    test() {
+        return axios.get(`/biubiubiu/static/public/templatesBox/box/test.html`)
+    },
 
 }

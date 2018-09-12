@@ -32,9 +32,7 @@
 import md5 from "js-md5";
 import { mapActions } from "vuex";
 import { navigator } from "../../../_common/utils";
-import { SchemaModel, StringType, DateType, NumberType } from "schema-typed";
-console.log(SchemaModel);
-var model = null;
+import { model } from "../../../_common/validator";
 export default {
   data() {
     return {
@@ -44,21 +42,16 @@ export default {
       pass: ""
     };
   },
-  created() {
-    model = SchemaModel({
-      acc: StringType().isRequired("用户名不能为空"),
-      pass: StringType().isRequired("密码不能为空")
-    });
-  },
+  created() {},
   methods: {
     ...mapActions("user", ["USER_LOGIN"]),
     async login() {
-      const checkResult = model.check({
+      var toBeCheceked = {
         acc: this.acc,
         pass: this.pass
-      });
-
-      Object.keys(checkResult).forEach(item => {
+      };
+      const checkResult = model.check(toBeCheceked);
+      Object.keys(toBeCheceked).forEach(item => {
         if (checkResult[item].hasError) {
           this.errMsg = checkResult[item].errorMessage;
           this.errMsgShow = "visible";
@@ -72,10 +65,9 @@ export default {
           loginName: this.acc,
           password: md5(this.pass)
         });
-        console.log(this);
         if (result.responseObject.loginType == 0) {
           this.USER_LOGIN(result.responseObject.publicKey);
-          // navigator("/main/main_index");
+          navigator("/main/main_index");
         } else {
           this.errMsgShow = "visible";
           this.errMsg = "用户名或密码错误";

@@ -15,7 +15,7 @@ const router = new VueRouter(routes)
 // 置入组件
 Vue.use(VueRouter)
 new Vue({
-  el: '#app',
+  el: '#apps',
   template: '<App/>',
   components: { App },
   router,
