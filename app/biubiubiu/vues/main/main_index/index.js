@@ -6,6 +6,7 @@ import routes from './router.js'
 import App from './index.vue'
 import store from '../../_store'
 import '../../_common/common'
+import '../../_common/directives'
 
 // 初始化路由
 /* eslint-disable no-new */
