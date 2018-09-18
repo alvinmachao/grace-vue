@@ -38,7 +38,7 @@ module.exports = {
   // 站点相关的配置
   site: {
     env: 'development',
-    port: 3000,
+    port: 5000,
     hostname: 'localhost'
   },
 

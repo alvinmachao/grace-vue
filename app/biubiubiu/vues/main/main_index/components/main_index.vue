@@ -1,7 +1,17 @@
 <template>
   <div class="main_index" v-alvinDrag>
-    <button @click="add"> add</button>
-    <button @click="remove"> remove</button>  
+
+    <alTransition> 
+       <component v-bind:is="view"></component>
+    </alTransition>
+
+    <button @click="remove"> remove</button>
+    <button >aaa</button>
+    <button @click="add" > add</button>
+    
+    
+      
+    
     <transition-group name='list' tag="p">
       <span class="list-item" v-for="item in items" v-bind:key="item">{{item}}</span> 
     </transition-group>
@@ -9,19 +19,33 @@
 
 
     <input v-if="test"  type="text" v-focus>
+
+  
+   
  </div>
 </template>
 
+
 <script>
+import alTransition from "../../../_components/al-transition-com";
 export default {
   data() {
     return {
       items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       nextNum: 11,
-      test: false
+      test: false,
+      view: "v-a"
     };
   },
-  components: {},
+  components: {
+    alTransition,
+    "v-a": {
+      template: "<div>Component A</div>"
+    },
+    "v-b": {
+      template: "<div>Component B</div>"
+    }
+  },
   methods: {
     randomIndex: function() {
       return Math.floor(Math.random() * this.items.length);
@@ -34,6 +58,7 @@ export default {
     },
     testFn() {
       this.test = !this.test;
+      this.view = this.view == "v-b" ? "v-a" : "v-b";
     }
   },
   directives: {
